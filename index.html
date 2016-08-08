@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Wheels</title>
+	<link rel="stylesheet" type="text/css" href="css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+	<div class="main">
+		<div class="first">
+			<img src="images/display.png">
+			<p>You have <span>50 coins</span></p>			
+		</div>
+		<div class="second">
+			<img id="img" src="images/wheel.png">	
+			<img  src="images/pointer.png">
+		</div>
+		<div class="third">
+			<p>For 15 coin</p>
+		</div>
+	</div>
+	<div class="show">
+		<img src="images/close.png">
+		<p>lose</p>
+	</div>
+<script type="text/javascript">
+var coin = document.getElementsByTagName("span")[0];
+var wheel = document.getElementById("img");
+var pointer = document.getElementsByTagName("img")[2];
+var spin = document.getElementsByClassName("third")[0];
+var show = document.getElementsByClassName("show")[0];
+var y=0;
+var j=50;
+
+
+spin.addEventListener("click",function(){
+	if(j>=15)
+		rotateAnimation();
+	else
+		display("You don't have enough money");
+});
+
+ function rotateAnimation(){
+	spin.style.backgroundImage='url("images/spin1.png")';
+
+
+ 	var x=Math.round((Math.random().toFixed(2))*360)+360;
+	x=x+y;
+ 	wheel.style.transform='rotate('+x+'deg)';
+ 	y=x;
+
+	var i=x%360;
+	i=Math.round(i/18);
+	console.log(x);
+	console.log(i);
+
+ 	if(i==20 || i==0){
+ 	setTimeout(display, 2000,'You earn gift'); 
+ 	}
+	else if (i%2==1) {
+	 setTimeout(display, 2000,'you lose your credit');
+	 j=j-15; 
+	}
+	else if (i==6 || i==12 || i==16) {
+	 setTimeout(display, 2000,"You earn twice your credit back");
+	 j=j+30; 
+	}
+	else {
+	setTimeout(display, 2000,'You earn your credit back');
+	j=j+15;
+	}
+	
+	setTimeout(function(){spin.style.backgroundImage='url("images/spin.png")';},2000);
+
+}
+function display(a){
+	show.style.display="block";
+	show.getElementsByTagName('p')[0].innerHTML=a;
+}
+show.getElementsByTagName('img')[0].addEventListener("click", hidden);
+function hidden(){
+	show.style.display="none";
+	coin.innerHTML=j+" coins";
+}
+
+</script>
+
+</body>
+</html>
